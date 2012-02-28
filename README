@@ -1,0 +1,51 @@
+SABackup is a tool used to back up and perform change control on the settings files for Mac OS X Server. SABackup can be used to generate autoserversetup, XML exports of settings and service restoration files.
+
+Syntax: 
+  sabackup --outputdir="/sabackups/" [options] 
+  sabackup --outputfile="/sabackup.dmg" [--services=afp,dns,ftp] [options] 
+  sabackup --outputfile="/sabackup.plist" --nodmg [--service=dns] [options] 
+  sabackup --plist="/Library/Preferences/com.318.sabackup.plist"
+
+Flags:
+  --plist= ## Path to a plist to read configuration information from. 
+             This will override any other provided options!
+
+  --outputfile= ## path to save exported plist or sparseimage file.
+  --outputdir= ## path to directory for export. If multiple services are specified,
+             they will be saved in a service-specific subdirectories under 'dir' 
+
+  --usedmg    ## When specified, backups will be saved in the form of a sparseimage 
+             file, which contain versioned backups of service configs. Defaults to
+             true with the '--outputfile=' option and defaults to false with the
+             '--outputdir' option. if '--useimage' is used with '--outputdir', then a
+             disk image will be made based on the machine's hostname:
+             "myhost.local_sabackups.sparseimage"
+
+  --nodmg     ## When used in conjunction with the '--outputfile' option, output
+             will be in the form of an XML plist of the specified services.
+
+  --nosubdirs ## Disables the use of service-specific subdirectories
+
+  --service=  ## used with '--outputfile' option to denote which service is 
+             to be saved to the specific file.
+
+  --services=  ## Used with --outputdir option to denote which services will be 
+             backed up. Supported Services:
+             "all" - akin to 'serveradmin settings all'
+             "running" - backs up all running services
+             "afp,smb"... (all services supported by 'serveradmin list')
+
+  --usetimestamps  ## Forces written file to include a timestamp:
+             myfile_201001102301.plist
+             (Y+M+D++time) (2010/01/10 11:01 PM)
+             Defaults to true with --outpitdir option
+  --notimestamps  ## Omits timestamps from all written files. Defaults to true
+             with --outputfile option
+
+  -p,--prune  ## Prune backups (only qualifies with timestamped backups)
+   --maxage=  ## Max age of a file (in days) before qualifying for pruning
+   --minicopies=  ## Minimum number of copies to keep of a file, ovverrides maxage
+
+  -f,--force  ## Do not prompt for verification when overwriting
+
+  -v,--version  ## Print out version info.
